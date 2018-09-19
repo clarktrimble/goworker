@@ -55,7 +55,7 @@ func redisConnFromURI(uriString string) (*RedisConn, error) {
 			password, _ = uri.User.Password()
 		}
 		if len(uri.Path) > 1 {
-			db = uri.Path[1:]
+			db = uri.Path[1:2]
 		}
 		if uri.Scheme == "rediss" {
 			dialOptions = append(dialOptions, redis.DialUseTLS(true))
