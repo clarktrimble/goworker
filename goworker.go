@@ -1,7 +1,7 @@
 package goworker
 
 import (
-	"os"
+	"io"
 	"strconv"
 	"sync"
 	"time"
@@ -36,6 +36,7 @@ type WorkerSettings struct {
 	UseNumber      bool
 	SkipTLSVerify  bool
 	TLSCertPath    string
+	Writor         io.Writer
 }
 
 func SetSettings(settings WorkerSettings) {
@@ -51,7 +52,7 @@ func Init() error {
 	defer initMutex.Unlock()
 	if !initialized {
 		var err error
-		logger, err = seelog.LoggerFromWriterWithMinLevel(os.Stdout, seelog.InfoLvl)
+		logger, err = seelog.LoggerFromWriterWithMinLevel(workerSettings.Writor, seelog.InfoLvl)
 		if err != nil {
 			return err
 		}
